@@ -8,8 +8,11 @@ import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import helpers from './helpers/handlebars.js'
+import bodyParser from 'body-parser'
 
 const app = express()
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 dotenv.config({ path: '.env' })
 
 // Habilitar Handlebars como Template Engine
