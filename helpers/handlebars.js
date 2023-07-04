@@ -19,6 +19,20 @@ const helpers = {
       html += `<option value="${contrato}" ${seleccionado === contrato ? 'selected' : ''}>${contrato}</option>`
     })
     return html
+  },
+  mostrarAlertas: (errores = {}, alertas) => {
+    const categoria = Object.keys(errores)
+    let html = ''
+    if (categoria.length) {
+      errores[categoria].forEach(error => {
+        html += `
+        <div class="${categoria} alerta">
+          ${error}
+        </div>
+        `
+      })
+    }
+    return html
   }
 }
 

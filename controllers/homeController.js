@@ -7,7 +7,7 @@ const mostrarTrabajos = async (req, res, next) => {
     return next()
   }
   res.render('home', {
-    nombrePagina: 'devJobs',
+    nombrePagina: 'DevJobs',
     tagline: 'Encuentra y Publica Trabajos para Desarrolladores Web',
     barra: true,
     boton: true,

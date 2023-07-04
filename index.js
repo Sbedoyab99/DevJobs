@@ -9,8 +9,10 @@ import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import helpers from './helpers/handlebars.js'
 import bodyParser from 'body-parser'
+import flash from 'connect-flash'
 
 const app = express()
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 dotenv.config({ path: '.env' })
@@ -25,7 +27,6 @@ app.engine('handlebars', exphbs.engine({
 // Static files
 app.use(express.static('public'))
 
-app.use('/', router)
 app.use(cookieParser())
 app.use(session({
   secret: process.env.SECRETO,
@@ -38,6 +39,13 @@ app.use(session({
   })
 }))
 
+app.use(flash())
+app.use(function (req, res, next) {
+  res.locals.mensajes = req.flash()
+  next()
+})
+
+app.use('/', router)
 // Definir puerto y arrancar proyecto
 const port = process.env.PORT
 app.listen(port, () => {

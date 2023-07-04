@@ -6,12 +6,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/app.css">
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.0/dist/trix.css">
-  <title>devJobs | {{nombrePagina}}</title>
+  <title>DevJobs | {{nombrePagina}}</title>
 </head>
 <body>
   <div class="nombre-sitio contenedor">
     <h1>
-      <a href="/">devJobs</a>
+      <a href="/">DevJobs</a>
     </h1>
     {{#if barra}}
       <div class="buscador">
@@ -32,7 +32,14 @@
     {{/if}}
   </div>
   <div class="contenido-principal contenedor">
+    {{#if mensajes}}
+      <div class="alertas">
+        {{#mostrarAlertas mensajes}}
+        {{/mostrarAlertas}}
+      </div>
+    {{/if}}
     {{{body}}}
   </div>
 </body>
+<script src="/dist/alertas.js"></script>
 </html>
