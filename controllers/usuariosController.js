@@ -39,8 +39,40 @@ const crearCuenta = async (req, res, next) => {
   }
 }
 
+const formLogin = (req, res) => {
+  res.render('iniciar-sesion', {
+    nombrePagina: 'Iniciar Sesión'
+  })
+}
+
+const formEditarPerfil = (req, res) => {
+  const usuario = req.user.toObject()
+  res.render('editar-perfil', {
+    nombrePagina: 'Edita tu Perfil',
+    usuario,
+    cerrarSesion: true,
+    nombre: req.user.nombre
+  })
+}
+
+const editarPerfil = async (req, res) => {
+  const usuario = await Usuario.findById(req.user._id)
+  const { nombre, email } = req.body
+  usuario.nombre = nombre
+  usuario.email = email
+  if (req.body.password) {
+    usuario.password = req.body.password
+  }
+  await usuario.save()
+  req.flash('correcto', 'Cambios guardados correctamente')
+  res.redirect('/administracion')
+}
+
 export {
   formCrearCuenta,
   crearCuenta,
-  validarRegistro
+  validarRegistro,
+  formLogin,
+  formEditarPerfil,
+  editarPerfil
 }

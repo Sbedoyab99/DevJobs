@@ -4,12 +4,15 @@ const Vacante = mongoose.model('Vacante')
 const nuevaVacante = (req, res) => {
   res.render('nueva-vacante', {
     nombrePagina: 'Nueva Vacante',
-    tagline: 'LLena el formulario y publica tu vacante'
+    tagline: 'LLena el formulario y publica tu vacante',
+    cerrarSesion: true,
+    nombre: req.user.nombre
   })
 }
 
 const agregarVacante = async (req, res) => {
   const vacante = new Vacante(req.body)
+  vacante.autor = req.user._id
   vacante.skills = req.body.skills.split(',')
   const nuevaVacante = await vacante.save()
   res.redirect(`/vacantes/${nuevaVacante.url}`)
@@ -36,7 +39,9 @@ const editarVacante = async (req, res, next) => {
   }
   res.render('editar-vacante', {
     vacante,
-    nombrePagina: `Editar - ${vacante.titulo}`
+    nombrePagina: `Editar - ${vacante.titulo}`,
+    cerrarSesion: true,
+    nombre: req.user.nombre
   })
 }
 
@@ -49,6 +54,17 @@ const guardarCambios = async (req, res, next) => {
     runValidators: true
   })
   res.redirect(`/vacantes/${vacante.url}`)
+}
+
+const validarVacante = (req, res) => {
+  req.sanitizeBody('titulo').scape()
+  req.sanitizeBody('empresa').scape()
+  req.sanitizeBody('ubicacion').scape()
+  req.sanitizeBody('salario').scape()
+  req.sanitizeBody('contrato').scape()
+  req.sanitizeBody('skills').scape()
+
+  
 }
 
 export {

@@ -10,6 +10,7 @@ import MongoStore from 'connect-mongo'
 import helpers from './helpers/handlebars.js'
 import bodyParser from 'body-parser'
 import flash from 'connect-flash'
+import passport from './config/passport.js'
 
 const app = express()
 
@@ -38,6 +39,9 @@ app.use(session({
     dbName: 'devjobs'
   })
 }))
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use(flash())
 app.use(function (req, res, next) {

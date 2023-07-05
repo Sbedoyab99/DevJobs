@@ -40,6 +40,12 @@ usuariosSchema.post('save', function (error, doc, next) {
   }
 })
 
+usuariosSchema.methods = {
+  compararPassword: function (password) {
+    return bcrypt.compareSync(password, this.password)
+  }
+}
+
 const Usuario = mongoose.model('Usuario', usuariosSchema)
 
 export default Usuario
